@@ -7,7 +7,6 @@ import {
   TabPanel,
 } from '@material-tailwind/react'
 import {
-  StarIcon,
   HeartIcon,
   BookOpenIcon,
   BookmarkIcon,
