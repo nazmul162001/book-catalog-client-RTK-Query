@@ -1,5 +1,6 @@
 import { Typography, Button } from '@material-tailwind/react'
 import { Link } from 'react-router-dom'
+import AddNewDialog from '../components/AddNewDialog'
 
 export default function NavList() {
   return (
@@ -50,13 +51,21 @@ export default function NavList() {
           color='blue-gray'
           className='p-1 font-medium'
         >
+          <AddNewDialog />
+        </Typography>
+        <Typography
+          as='li'
+          variant='small'
+          color='blue-gray'
+          className='p-1 font-medium'
+        >
           <Link
             to='/logout'
             className='flex items-center hover:text-blue-500 transition-colors'
           >
-            <Button variant="gradient" size="sm" fullWidth>
-            Log Out
-          </Button>
+            <Button variant='gradient' size='sm' fullWidth>
+              Log Out
+            </Button>
           </Link>
         </Typography>
       </ul>
