@@ -2,26 +2,23 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Typography,
-  Button,
   Tooltip,
-  IconButton,
 } from '@material-tailwind/react'
 import {
-  BanknotesIcon,
   StarIcon,
   HeartIcon,
-  WifiIcon,
-  HomeIcon,
   TvIcon,
   FireIcon,
+  BookOpenIcon,
+  BookmarkIcon,
+  CheckBadgeIcon
 } from '@heroicons/react/24/solid'
 
 export default function BookCard() {
   return (
     <>
-      <Card className='w-full max-w-[26rem] shadow-lg'>
+      <Card className='w-full shadow-lg cursor-pointer'>
         <CardHeader floated={false} color='blue-gray'>
           <img
             src='https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
@@ -51,30 +48,25 @@ export default function BookCard() {
           <Typography color='gray'>
             <p>Publication: </p>
           </Typography>
-          <div className='group mt-8 inline-flex flex-wrap items-center gap-3'>
-            <Tooltip content='$129 per night'>
-              <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
-                <BanknotesIcon className='h-5 w-5' />
+          <div className='group mt-8 flex flex-wrap items-center justify-between px-3'>
+            <Tooltip content='Add to Wish List'>
+              <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
+                <HeartIcon className='h-5 w-5' />
               </span>
             </Tooltip>
-            <Tooltip content='Free wifi'>
-              <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
-                <WifiIcon className='h-5 w-5' />
+            <Tooltip content='Reading'>
+              <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
+                <BookOpenIcon className='h-5 w-5' />
               </span>
             </Tooltip>
-            <Tooltip content='2 bedrooms'>
-              <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
-                <HomeIcon className='h-5 w-5' />
+            <Tooltip content='Plan to read'>
+              <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
+                <BookmarkIcon className='h-5 w-5' />
               </span>
             </Tooltip>
-            <Tooltip content={`65" HDTV`}>
-              <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
-                <TvIcon className='h-5 w-5' />
-              </span>
-            </Tooltip>
-            <Tooltip content='Fire alert'>
-              <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
-                <FireIcon className='h-5 w-5' />
+            <Tooltip content='Complete'>
+              <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
+                <CheckBadgeIcon className='h-5 w-5' />
               </span>
             </Tooltip>
           </div>
