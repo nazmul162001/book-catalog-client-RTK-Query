@@ -1,7 +1,13 @@
+import BookCard from '../components/BookCard'
+
 export default function Books() {
   return (
     <>
-      <h2>Books</h2>
+      <section className='bookList'>
+        <div className='books grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
+          <BookCard />
+        </div>
+      </section>
     </>
   )
 }
