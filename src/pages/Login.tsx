@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@material-tailwind/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { getAccessToken, useLoginMutation } from '../redux/api/apiSlice'
+import { useLoginMutation } from '../redux/api/apiSlice'
 import Cookies from 'js-cookie'
 
 type LoginFormValues = {
@@ -34,14 +34,16 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>()
+  const [loginMutation] = useLoginMutation()
   const navigate = useNavigate()
   const [login, { isLoading }] = useLoginMutation()
-  const accessToken = getAccessToken()
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     try {
       setEmailErr('') // Clear the error message before making the login API call
       setEmailErr('') // Clear the error message before making the login API call
+      const response = await loginMutation(data)
+      const accessToken = response?.data?.data?.accessToken
       if (accessToken) {
         Cookies.set('accessToken', accessToken) // Store the access token in a cookie
       }
@@ -55,6 +57,7 @@ export default function Login() {
       }
     }
   }
+
 
   return (
     <section className='w-full h-full md:h-[80vh] flex justify-center items-center'>

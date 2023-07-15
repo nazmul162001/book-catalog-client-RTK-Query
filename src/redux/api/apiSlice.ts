@@ -14,6 +14,7 @@ export const api = createApi({
         body: credentials,
       }),
     }),
+    // login
     login: builder.mutation<any, { email: string; password: string }>({
       query: (credentials) => ({
         url: '/auth/login',
@@ -23,10 +24,8 @@ export const api = createApi({
     }),
   }),
 })
-
 export const { useSignupMutation, useLoginMutation } = api
 
-// Export a function to get the access token from the cookies
-export const getAccessToken = (): string | undefined => {
-  return Cookies.get('accessToken')
-}
+export const getAccessToken = () => {
+  return Cookies.get('accessToken');
+};

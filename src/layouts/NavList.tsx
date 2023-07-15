@@ -4,9 +4,11 @@ import AddNewDialog from '../components/AddNewDialog'
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { getAccessToken } from '../redux/api/apiSlice'
 
 export default function NavList() {
   const navigate = useNavigate()
+  const accessToken = getAccessToken()
 
   const handleLogout = () => {
     Swal.fire({
@@ -75,22 +77,42 @@ export default function NavList() {
         >
           <AddNewDialog />
         </Typography>
-        <Typography
-          as='li'
-          variant='small'
-          color='blue-gray'
-          className='p-1 font-medium'
-        >
-          <Link
-            to='/login'
-            onClick={handleLogout}
-            className='flex items-center hover:text-blue-500 transition-colors'
+
+        {accessToken ? (
+          <Typography
+            as='li'
+            variant='small'
+            color='blue-gray'
+            className='p-1 font-medium'
           >
-            <Button variant='gradient' size='sm' fullWidth>
-              Log Out
-            </Button>
-          </Link>
-        </Typography>
+            <Link
+              to='/login'
+              onClick={handleLogout}
+              className='flex items-center hover:text-blue-500 transition-colors'
+            >
+              <Button variant='gradient' size='sm' fullWidth>
+                Log Out
+              </Button>
+            </Link>
+          </Typography>
+        ) : (
+          <Typography
+            as='li'
+            variant='small'
+            color='blue-gray'
+            className='p-1 font-medium'
+          >
+            <Link
+              to='/login'
+              // onClick={handleLogout}
+              className='flex items-center hover:text-blue-500 transition-colors'
+            >
+              <Button variant='gradient' size='sm' fullWidth>
+                Login
+              </Button>
+            </Link>
+          </Typography>
+        )}
       </ul>
     </>
   )
