@@ -1,38 +1,62 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { z } from 'zod';
+import { useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { z } from 'zod'
 import {
   Card,
   Input,
   Checkbox,
   Button,
   Typography,
-} from '@material-tailwind/react';
-import { Link, useNavigate } from 'react-router-dom';
+} from '@material-tailwind/react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useLoginMutation } from '../redux/api/apiSlice'
+import Cookies from 'js-cookie'
 
 type LoginFormValues = {
-  email: string;
-  password: string;
-};
+  email: string
+  password: string
+}
 
 const loginSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
-  password: z.string().min(6, { message: 'Password must be at least 6 characters long' }),
-});
+  password: z
+    .string()
+    .min(6, { message: 'Password must be at least 6 characters long' }),
+})
 console.log(loginSchema)
 export default function Login() {
+  const [passwordErr, setPasswordErr] = useState('')
+  const [emailErr, setEmailErr] = useState('')
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>();
+  } = useForm<LoginFormValues>()
+  const [login, { isLoading }] = useLoginMutation()
+  const navigate = useNavigate()
+  const [loginMutation] = useLoginMutation()
 
-  const navigate = useNavigate();
+  const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
+    try {
+      setEmailErr('') // Clear the error message before making the login API call
+      setEmailErr('') // Clear the error message before making the login API call
+      const response = await loginMutation(data)
+      // console.log(response?.data?.data?.accessToken)
+      const accessToken = response?.data?.data?.accessToken
 
-  const onSubmit: SubmitHandler<LoginFormValues> = (data) => {
-    console.log(data);
-    // Perform login logic here
-    navigate('/dashboard');
-  };
+      if (accessToken) {
+        Cookies.set('accessToken', accessToken) // Store the access token in a cookie
+        navigate('/')
+      }
+    } catch (error) {
+      if (error?.data?.message === 'Password is incorrect') {
+        setPasswordErr('Password is incorrect')
+      } else if (error?.data?.message === 'User does not exist') {
+        setEmailErr('User does not exist')
+      }
+    }
+  }
 
   return (
     <section className='w-full h-full md:h-[80vh] flex justify-center items-center'>
@@ -59,6 +83,9 @@ export default function Login() {
                 },
               })}
             />
+            {emailErr && !errors.email && (
+              <span className='text-red-500'>{emailErr}</span>
+            )}
             {errors.email && (
               <span className='text-red-500'>{errors.email.message}</span>
             )}
@@ -74,6 +101,9 @@ export default function Login() {
                 },
               })}
             />
+            {passwordErr && !errors.password && (
+              <span className='text-red-500'>{passwordErr}</span>
+            )}
             {errors.password && (
               <span className='text-red-500'>{errors.password.message}</span>
             )}
@@ -110,5 +140,5 @@ export default function Login() {
         </form>
       </Card>
     </section>
-  );
+  )
 }

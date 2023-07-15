@@ -1,6 +1,7 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import Cookies from 'js-cookie';
 
-const BASE_URL = 'http://localhost:5000' // Replace with your actual backend URL
+const BASE_URL = 'http://localhost:5000'; // Replace with your actual backend URL
 
 export const api = createApi({
   reducerPath: 'api',
@@ -13,7 +14,14 @@ export const api = createApi({
         body: credentials,
       }),
     }),
+    login: builder.mutation<any, { email: string; password: string }>({
+      query: (credentials) => ({
+        url: '/auth/login',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
   }),
-})
+});
 
-export const { useSignupMutation } = api
+export const { useSignupMutation, useLoginMutation } = api;

@@ -1,8 +1,28 @@
 import { Typography, Button } from '@material-tailwind/react'
 import { Link } from 'react-router-dom'
 import AddNewDialog from '../components/AddNewDialog'
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
 
 export default function NavList() {
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    Cookies.remove('accessToken') // Clear the access token from the cookie
+    navigate('/login') // Redirect the user to the login page
+  }
+
+  // Check if the "accessToken" cookie exists
+  const hasAccessTokenCookie = Cookies.get('accessToken') !== undefined
+
+  if (hasAccessTokenCookie) {
+    // Cookie exists
+    console.log('Access token cookie exists')
+  } else {
+    // Cookie doesn't exist
+    console.log('Access token cookie does not exist')
+  }
+
   return (
     <>
       <ul className='my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6'>
@@ -60,7 +80,8 @@ export default function NavList() {
           className='p-1 font-medium'
         >
           <Link
-            to='/logout'
+            to='/login'
+            onClick={handleLogout}
             className='flex items-center hover:text-blue-500 transition-colors'
           >
             <Button variant='gradient' size='sm' fullWidth>
