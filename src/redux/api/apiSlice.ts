@@ -1,7 +1,7 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import Cookies from 'js-cookie';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import Cookies from 'js-cookie'
 
-const BASE_URL = 'http://localhost:5000'; // Replace with your actual backend URL
+const BASE_URL = 'http://localhost:5000' // Replace with your actual backend URL
 
 export const api = createApi({
   reducerPath: 'api',
@@ -22,6 +22,11 @@ export const api = createApi({
       }),
     }),
   }),
-});
+})
 
-export const { useSignupMutation, useLoginMutation } = api;
+export const { useSignupMutation, useLoginMutation } = api
+
+// Export a function to get the access token from the cookies
+export const getAccessToken = (): string | undefined => {
+  return Cookies.get('accessToken')
+}

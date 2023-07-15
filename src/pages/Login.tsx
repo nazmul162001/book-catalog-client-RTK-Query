@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@material-tailwind/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useLoginMutation } from '../redux/api/apiSlice'
+import { getAccessToken, useLoginMutation } from '../redux/api/apiSlice'
 import Cookies from 'js-cookie'
 
 type LoginFormValues = {
@@ -24,6 +24,7 @@ const loginSchema = z.object({
     .min(6, { message: 'Password must be at least 6 characters long' }),
 })
 console.log(loginSchema)
+
 export default function Login() {
   const [passwordErr, setPasswordErr] = useState('')
   const [emailErr, setEmailErr] = useState('')
@@ -33,22 +34,19 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>()
-  const [login, { isLoading }] = useLoginMutation()
   const navigate = useNavigate()
-  const [loginMutation] = useLoginMutation()
+  const [login, { isLoading }] = useLoginMutation()
+  const accessToken = getAccessToken()
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     try {
       setEmailErr('') // Clear the error message before making the login API call
       setEmailErr('') // Clear the error message before making the login API call
-      const response = await loginMutation(data)
-      // console.log(response?.data?.data?.accessToken)
-      const accessToken = response?.data?.data?.accessToken
-
       if (accessToken) {
         Cookies.set('accessToken', accessToken) // Store the access token in a cookie
-        navigate('/')
       }
+      await login({ email: data.email, password: data.password }).unwrap()
+      navigate('/')
     } catch (error) {
       if (error?.data?.message === 'Password is incorrect') {
         setPasswordErr('Password is incorrect')
@@ -89,6 +87,7 @@ export default function Login() {
             {errors.email && (
               <span className='text-red-500'>{errors.email.message}</span>
             )}
+
             <Input
               type='password'
               size='lg'

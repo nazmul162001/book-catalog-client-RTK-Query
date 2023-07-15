@@ -3,24 +3,26 @@ import { Link } from 'react-router-dom'
 import AddNewDialog from '../components/AddNewDialog'
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 export default function NavList() {
   const navigate = useNavigate()
 
-  const handleLogout = async () => {
-    Cookies.remove('accessToken') // Clear the access token from the cookie
-    navigate('/login') // Redirect the user to the login page
-  }
-
-  // Check if the "accessToken" cookie exists
-  const hasAccessTokenCookie = Cookies.get('accessToken') !== undefined
-
-  if (hasAccessTokenCookie) {
-    // Cookie exists
-    console.log('Access token cookie exists')
-  } else {
-    // Cookie doesn't exist
-    console.log('Access token cookie does not exist')
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Log Out',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Cookies.remove('accessToken') // Clear the access token from the cookie
+        navigate('/login') // Redirect the user to the login page
+      }
+    })
   }
 
   return (
