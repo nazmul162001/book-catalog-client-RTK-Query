@@ -33,7 +33,7 @@ export default function AddNewDialog() {
 
   return (
     <Fragment>
-      <Button onClick={handleOpen} variant='outlined' size='sm'>
+      <Button onClick={handleOpen} variant='outlined' size='sm' fullWidth>
         Add New
       </Button>
       <Dialog

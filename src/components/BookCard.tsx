@@ -17,12 +17,9 @@ import { Link, useNavigate } from 'react-router-dom'
 export default function BookCard() {
   const navigate = useNavigate()
 
-  const handleCardClick = () => {
-    navigate('/id') // Replace '/id' with the desired route path
-  }
   return (
     <>
-      <Link to='/:id' onClick={handleCardClick}>
+      <Link to='/books/4654654'>
         <Card className='w-full shadow-lg'>
           <CardHeader floated={false} color='blue-gray'>
             <img

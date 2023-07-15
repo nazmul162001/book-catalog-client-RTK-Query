@@ -14,7 +14,7 @@ import {
 } from '@heroicons/react/24/solid'
 import BookCard from '../components/BookCard'
 
-export default function Example() {
+export default function WishList() {
   const data = [
     {
       label: 'Wish List',
@@ -56,7 +56,9 @@ export default function Example() {
       <TabsBody>
         {data.map(({ value, desc }) => (
           <TabPanel key={value} value={value}>
-            <div className='grid grid-cols-4'>{desc}</div>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
+              {desc}
+            </div>
           </TabPanel>
         ))}
       </TabsBody>
