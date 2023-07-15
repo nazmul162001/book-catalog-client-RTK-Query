@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { z } from 'zod'
 import {
@@ -8,6 +9,7 @@ import {
   Typography,
 } from '@material-tailwind/react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useSignupMutation } from '../redux/api/apiSlice'
 
 type SignUpFormValues = {
   email: string
@@ -21,8 +23,10 @@ const signUpSchema = z.object({
     .string()
     .min(6, { message: 'Password must be at least 6 characters long' }),
 })
+console.log(signUpSchema)
 
 export default function SignUp() {
+  const [err, setErr] = useState('')
   const {
     register,
     handleSubmit,
@@ -30,13 +34,26 @@ export default function SignUp() {
     watch,
   } = useForm<SignUpFormValues>()
 
+  const [signup, { isLoading }] = useSignupMutation()
+
   const navigate = useNavigate()
 
-  const onSubmit: SubmitHandler<SignUpFormValues> = (data) => {
-    console.log(data)
-    navigate('/login')
+  const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
+    try {
+      setErr('')
+      await signup({ email: data.email, password: data.password }).unwrap()
+      navigate('/login')
+    } catch (error) {
+      // console.log(error?.data?.message)
+      // setErr(error?.data?.message)
+      if (error?.data?.message === 'User already exists') {
+        setErr('User already exists')
+      } else {
+        console.error('Signup failed:', error)
+      }
+    }
   }
-
+  console.log(err)
   const termsAndConditionsChecked = watch('termsAndConditions')
 
   return (
@@ -64,6 +81,9 @@ export default function SignUp() {
                 },
               })}
             />
+            {err && !errors.email && (
+              <span className='text-red-500'>{err}</span>
+            )}
             {errors.email && (
               <span className='text-red-500'>{errors.email.message}</span>
             )}

@@ -50,7 +50,7 @@ export default function AddNewDialog() {
             color='red'
             size='lg'
             variant='text'
-            onClick={handleOpen}
+            onClick={handleCardOpen}
           >
             <XMarkIcon strokeWidth={2} className='h-5 w-5' />
           </IconButton>

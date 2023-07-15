@@ -39,10 +39,10 @@ export default function NavList() {
           className='p-1 font-medium'
         >
           <Link
-            to='/signUp'
+            to='/login'
             className='flex items-center hover:text-blue-500 transition-colors'
           >
-            Sign Up
+            Login
           </Link>
         </Typography>
         <Typography
