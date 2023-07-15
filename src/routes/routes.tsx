@@ -5,6 +5,7 @@ import Home from '../pages/Home'
 import Books from '../pages/Books'
 import SignUp from '../pages/SignUp'
 import Login from '../pages/Login'
+import WishList from '../pages/WishList'
 
 const routes = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const routes = createBrowserRouter([
       {
         path: '/books',
         element: <Books />,
+      },
+      {
+        path: '/wishlist',
+        element: <WishList />,
       },
       {
         path: '/signUp',
