@@ -1,0 +1,112 @@
+[
+  {
+    "_id": "1",
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "genre": "Classic",
+    "publicationDate": "April 10, 1925",
+    "reviews": "An American classic.",
+    "image": "https://example.com/great_gatsby.jpg",
+    "status": "display",
+    "userEmail": "user1@example.com"
+  },
+  {
+    "_id": "2",
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "genre": "Fiction",
+    "publicationDate": "July 11, 1960",
+    "reviews": "Powerful and thought-provoking.",
+    "image": "https://example.com/to_kill_a_mockingbird.jpg",
+    "status": "display",
+    "userEmail": "user2@example.com"
+  },
+  {
+    "_id": "3",
+    "title": "1984",
+    "author": "George Orwell",
+    "genre": "Dystopian",
+    "publicationDate": "June 8, 1949",
+    "reviews": "A chilling depiction of a totalitarian society.",
+    "image": "https://example.com/1984.jpg",
+    "status": "display",
+    "userEmail": "user3@example.com"
+  },
+  {
+    "_id": "4",
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "genre": "Romance",
+    "publicationDate": "January 28, 1813",
+    "reviews": "A delightful classic.",
+    "image": "https://example.com/pride_and_prejudice.jpg",
+    "status": "display",
+    "userEmail": "user4@example.com"
+  },
+  {
+    "_id": "5",
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "publicationDate": "September 21, 1937",
+    "reviews": "An enchanting adventure.",
+    "image": "https://example.com/the_hobbit.jpg",
+    "status": "display",
+    "userEmail": "user5@example.com"
+  },
+  {
+    "_id": "6",
+    "title": "Harry Potter and the Philosopher's Stone",
+    "author": "J.K. Rowling",
+    "genre": "Fantasy",
+    "publicationDate": "June 26, 1997",
+    "reviews": "Magical and captivating.",
+    "image": "https://example.com/harry_potter.jpg",
+    "status": "display",
+    "userEmail": "user6@example.com"
+  },
+  {
+    "_id": "7",
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "genre": "Coming-of-age",
+    "publicationDate": "July 16, 1951",
+    "reviews": "A timeless classic.",
+    "image": "https://example.com/catcher_in_the_rye.jpg",
+    "status": "display",
+    "userEmail": "user7@example.com"
+  },
+  {
+    "_id": "8",
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "publicationDate": "July 29, 1954",
+    "reviews": "Epic and immersive.",
+    "image": "https://example.com/lord_of_the_rings.jpg",
+    "status": "display",
+    "userEmail": "user8@example.com"
+  },
+  {
+    "_id": "9",
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "genre": "Fiction",
+    "publicationDate": "1988",
+    "reviews": "A profound and inspirational journey.",
+    "image": "https://example.com/the_alchemist.jpg",
+    "status": "display",
+    "userEmail": "user9@example.com"
+  },
+  {
+    "_id": "10",
+    "title": "The Chronicles of Narnia: The Lion, the Witch and the Wardrobe",
+    "author": "C.S. Lewis",
+    "genre": "Fantasy",
+    "publicationDate": "October 16, 1950",
+    "reviews": "A magical and enchanting tale.",
+    "image": "https://example.com/narnia.jpg",
+    "status": "display",
+    "userEmail": "user10@example.com"
+  }
+]
