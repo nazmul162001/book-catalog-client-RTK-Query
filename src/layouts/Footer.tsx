@@ -4,7 +4,7 @@ export default function Example() {
   return (
     <footer className='w-full bg-white shadow-inner p-8 mt-20 border-t-5 border-gray-500'>
       <div className='flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 bg-white text-center md:justify-between'>
-        <img src='book.png' alt='logo-ct' className='w-10' />
+        <h3>Book Catalog</h3>
         <ul className='flex flex-wrap items-center gap-y-2 gap-x-8'>
           <li>
             <Typography

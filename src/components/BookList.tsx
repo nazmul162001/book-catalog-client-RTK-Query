@@ -1,18 +1,19 @@
 import BookCard from './BookCard'
 import { CreateBookFormValues } from './AddNewDialog'
-import { useGetBooksQuery } from '../redux/features/books/bookApiSlice'
+import { useGetBooksQuery, useSearchBooksQuery } from '../redux/features/books/bookApiSlice'
 
-export default function BookList() {
-  const { data: books, isLoading, isError } = useGetBooksQuery()
+export default function BookList({ searchTerm }) {
+  // const { data: books, isLoading, isError } = useGetBooksQuery()
+  const { data: books, isLoading, isError } = useSearchBooksQuery(searchTerm);
 
   // console.log(books?.data)
 
   if (isLoading) {
-    return <p>Loading books...</p>
+    return <p>Loading books...</p>;
   }
 
   if (isError) {
-    return <p>Error occurred while fetching books.</p>
+    return <p>Error occurred while fetching books.</p>;
   }
 
   return (

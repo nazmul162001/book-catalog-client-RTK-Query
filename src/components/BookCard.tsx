@@ -28,11 +28,9 @@ export default function BookCard({ book }) {
     _id,
   } = book
 
-  console.log(image)
-
   return (
     <>
-      <Link to='/books/4654654'>
+      <Link to={`/books/${book._id}`}>
         <Card className='w-full shadow-lg'>
           <CardHeader floated={false} color='blue-gray'>
             <img src={image} alt='ui/ux review check' />
@@ -46,13 +44,13 @@ export default function BookCard({ book }) {
               >
                 {title.slice(0, 15)}
               </Typography>
-              {/* <Typography
+              <Typography
                 color='blue-gray'
                 className='flex items-center gap-1.5 font-normal'
               >
                 <StarIcon className='-mt-0.5 h-5 w-5 text-yellow-700' />
                 5.0
-              </Typography> */}
+              </Typography>
             </div>
             <Typography color='gray'>
               <p className='text-sm'>Author: {author}</p>

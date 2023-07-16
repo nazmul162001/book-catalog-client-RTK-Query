@@ -9,6 +9,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import NavList from './NavList'
 import { Link } from 'react-router-dom'
 
+// BsSearch
 const NavMenu = () => {
   const [openNav, setOpenNav] = useState(false)
 
@@ -32,6 +33,7 @@ const NavMenu = () => {
         >
           <Link to='/'>Book Catalog</Link>
         </Typography>
+
         <div className='hidden lg:block'>
           <NavList />
         </div>

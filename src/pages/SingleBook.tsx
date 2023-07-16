@@ -1,12 +1,20 @@
 import { Button } from '@material-tailwind/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { Textarea } from '@material-tailwind/react'
+import { useGetBookByIdQuery } from '../redux/features/books/bookApiSlice'
+import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 type ReviewFormValues = {
   message: string
 }
 
 export default function SingleBook() {
+  const { id } = useParams()
+  const { data: book, isLoading, isError } = useGetBookByIdQuery(id)
+
+  // console.log(book?.data?.author)
+
   const {
     register,
     handleSubmit,
@@ -23,22 +31,26 @@ export default function SingleBook() {
         <div className='w-full h-[450px] flex justify-center'>
           <img
             className='w-full h-full shadow-inner p-5 m-5'
-            src='https://camo.envatousercontent.com/912e6b79e01a13c76aa21264ea6b45921c9ccaac/687474703a2f2f6465762e77706f70616c2e636f6d2f6f70616c2d70726f66696c652f696d616765732f626f6f6b6f72792f312e6a7067'
+            src={book?.data?.image}
             alt=''
           />
         </div>
         <div className='w-full h-full shadow-inner p-5 m-5 flex items-center'>
           <div className='w-full h-4/5'>
-            <h3 className='text-xl md:text-3xl lg:text-4xl'>Book Title</h3>
+            <h3 className='text-lg md:text-2xl lg:text-4xl'>
+              {book?.data?.title}
+            </h3>
             <p className='text-gray-500 py-3'>
-              Author : <span className='text-gray-800'>Jhon Week</span>
+              Author :<span className='text-gray-800'>{book?.data?.title}</span>
             </p>
             <p className='text-gray-500'>
-              Genre : <span className='text-gray-800'>Jhon Week</span>
+              Genre :<span className='text-gray-800'>{book?.data?.genre}</span>
             </p>
             <p className='text-gray-500 py-3'>
-              Publication Date :{' '}
-              <span className='text-gray-800'>Jhon Week</span>
+              Publication Date :
+              <span className='text-gray-800'>
+                {book?.data?.publicationDate}
+              </span>
             </p>
             <div className='w-full flex gap-3'>
               <Button>Edit</Button>
@@ -48,19 +60,22 @@ export default function SingleBook() {
         </div>
       </section>
       <div className='comment px-10'>
-      <h4 className='text-gray-500'>Write your review</h4>
-      <div className='w-96'>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Textarea label='Message' {...register('message', { required: 'Message is required' })} />
-          {errors.message && (
-            <span className='text-red-500'>{errors.message.message}</span>
-          )}
-          <Button className='mt-6' fullWidth type='submit'>
-            Submit
-          </Button>
-        </form>
+        <h4 className='text-gray-500'>Write your review</h4>
+        <div className='w-96'>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Textarea
+              label='Message'
+              {...register('message', { required: 'Message is required' })}
+            />
+            {errors.message && (
+              <span className='text-red-500'>{errors.message.message}</span>
+            )}
+            <Button className='mt-6' fullWidth type='submit'>
+              Submit
+            </Button>
+          </form>
+        </div>
       </div>
-    </div>
       <div className='userReview px-10 my-5 pt-10'>
         <div className='user'>
           <p className='text-gray-800 text-sm'>
