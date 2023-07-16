@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useLoginMutation } from '../redux/features/user/userApiSlice'
 import { toast } from 'react-toastify'
+import Loader from '../layouts/Spinner'
 
 type LoginFormValues = {
   email: string
@@ -38,6 +39,10 @@ export default function Login() {
   const [loginMutation] = useLoginMutation()
   const navigate = useNavigate()
   const [login, { isLoading }] = useLoginMutation()
+
+  if (isLoading) {
+    return <Loader />
+  }
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     try {

@@ -4,6 +4,7 @@ import {
   useGetBooksQuery,
   useSearchBooksQuery,
 } from '../redux/features/books/bookApiSlice'
+import Loader from '../layouts/Spinner'
 
 export default function AllBooks({searchTerm}) {
   // const { data: books, isLoading, isError } = useGetBooksQuery()
@@ -12,11 +13,7 @@ export default function AllBooks({searchTerm}) {
   // console.log(books?.data)
 
   if (isLoading) {
-    return <p>Loading books...</p>
-  }
-
-  if (isError) {
-    return <p>Error occurred while fetching books.</p>
+    return <Loader />
   }
 
   return (

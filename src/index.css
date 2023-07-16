@@ -16,3 +16,11 @@ ul.flex.relative.bg-blue-gray-50.bg-opacity-60.rounded-lg.p-1.flex-row {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f1f1f1;
+}

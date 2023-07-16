@@ -14,6 +14,7 @@ import {
   useUpdateBookMutation,
 } from '../redux/features/books/bookApiSlice'
 import { toast } from 'react-toastify'
+import Loader from '../layouts/Spinner'
 
 export type CreateBookFormValues = {
   title: string
@@ -40,7 +41,11 @@ export default function EditDialog({ book }) {
     formState: { errors },
   } = useForm<CreateBookFormValues>()
 
-  const [updateBook] = useUpdateBookMutation()
+  const [updateBook, { isLoading }] = useUpdateBookMutation()
+
+  if (isLoading) {
+    return <Loader />
+  }
 
   const onSubmit: SubmitHandler<CreateBookFormValues> = async (bookData) => {
     try {
