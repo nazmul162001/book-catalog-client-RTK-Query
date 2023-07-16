@@ -12,7 +12,6 @@ import {
   BookmarkIcon,
   CheckBadgeIcon,
 } from '@heroicons/react/24/solid'
-import BookCard from '../components/BookCard'
 
 export default function WishList() {
   const data = [
@@ -20,25 +19,25 @@ export default function WishList() {
       label: 'Wish List',
       value: 'Wish List',
       icon: HeartIcon,
-      desc: <BookCard />,
+      desc: 'Wish List',
     },
     {
       label: 'Reading',
       value: 'Reading',
       icon: BookOpenIcon,
-      desc: <BookCard />,
+      desc: 'Reading List',
     },
     {
       label: 'Plan To Read',
       value: 'Plan To Read',
       icon: BookmarkIcon,
-      desc: <BookCard />,
+      desc: 'Plan To Read List',
     },
     {
       label: 'Completed',
       value: 'Completed',
       icon: CheckBadgeIcon,
-      desc: <BookCard />,
+      desc: 'Completed List',
     },
   ]
   return (

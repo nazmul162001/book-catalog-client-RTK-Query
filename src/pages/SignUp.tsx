@@ -53,7 +53,6 @@ export default function SignUp() {
       }
     }
   }
-  console.log(err)
   const termsAndConditionsChecked = watch('termsAndConditions')
 
   return (

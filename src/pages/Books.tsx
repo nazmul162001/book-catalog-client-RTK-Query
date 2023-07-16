@@ -1,12 +1,16 @@
-import BookList from "../components/BookList";
+import {useState} from 'react'
+import AllBooks from "../components/AllBooks";
+import Search from "../components/Search";
 
 export default function Books() {
+  const [searchTerm, setSearchTerm] = useState('')
+
   return (
     <>
-    {/* homepage */}
       <section className='bookList'>
         <div className='books'>
-          <BookList />
+          <Search setSearchTerm={setSearchTerm} />
+          <AllBooks searchTerm={searchTerm}  />
         </div>
       </section>
     </>
