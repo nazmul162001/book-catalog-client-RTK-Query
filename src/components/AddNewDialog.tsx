@@ -9,7 +9,7 @@ import {
   Button,
   IconButton,
 } from '@material-tailwind/react'
-import { useCreateBookMutation } from '../redux/features/books/bookApi'
+import { useCreateBookMutation } from '../redux/features/books/bookApiSlice'
 
 export type CreateBookFormValues = {
   title: string
@@ -17,6 +17,7 @@ export type CreateBookFormValues = {
   genre: string
   publicationDate: string
   image?: string
+  _id: string
 }
 
 export default function AddNewDialog() {

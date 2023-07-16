@@ -10,7 +10,10 @@ const bookApi = api.injectEndpoints({
         body: bookData,
       }),
     }),
+    getBooks: builder.query<any, void>({
+      query: () => '/books',
+    }),
   }),
 })
 
-export const { useCreateBookMutation} = bookApi
+export const { useCreateBookMutation, useGetBooksQuery  } = bookApi

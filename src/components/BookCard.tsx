@@ -14,43 +14,54 @@ import {
 } from '@heroicons/react/24/solid'
 import { Link } from 'react-router-dom'
 
-export default function BookCard() {
+export default function BookCard({ book }) {
+  // console.log(book)
+  const {
+    title,
+    author,
+    genre,
+    image,
+    reviews,
+    publicationDate,
+    status,
+    userEmail,
+    _id,
+  } = book
+
+  console.log(image)
+
   return (
     <>
       <Link to='/books/4654654'>
         <Card className='w-full shadow-lg'>
           <CardHeader floated={false} color='blue-gray'>
-            <img
-              src='https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
-              alt='ui/ux review check'
-            />
-            <div className='to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 ' />
+            <img src={image} alt='ui/ux review check' />
           </CardHeader>
           <CardBody>
             <div className='mb-3 flex items-center justify-between'>
               <Typography
-                variant='h5'
+                variant='h6'
                 color='blue-gray'
                 className='font-medium'
               >
-                book title
+                {title.slice(0, 15)}
               </Typography>
-              <Typography
+              {/* <Typography
                 color='blue-gray'
                 className='flex items-center gap-1.5 font-normal'
               >
                 <StarIcon className='-mt-0.5 h-5 w-5 text-yellow-700' />
                 5.0
-              </Typography>
+              </Typography> */}
             </div>
             <Typography color='gray'>
-              <p>Author: </p>
+              <p className='text-sm'>Author: {author}</p>
             </Typography>
             <Typography color='gray'>
-              <p>Genre: </p>
+              <p className='text-sm'>Genre: {genre} </p>
             </Typography>
             <Typography color='gray'>
-              <p>Publication: </p>
+              <p className='text-sm'>Publication: {publicationDate}</p>
             </Typography>
             <div className='group mt-8 flex flex-wrap items-center justify-between px-3'>
               <Tooltip content='Add to Wish List'>

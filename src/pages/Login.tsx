@@ -10,7 +10,7 @@ import {
 } from '@material-tailwind/react'
 import { Link, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import { useLoginMutation } from '../redux/features/user/userApi'
+import { useLoginMutation } from '../redux/features/user/userApiSlice'
 
 type LoginFormValues = {
   email: string
@@ -23,7 +23,7 @@ const loginSchema = z.object({
     .string()
     .min(6, { message: 'Password must be at least 6 characters long' }),
 })
-console.log(loginSchema)
+// console.log(loginSchema)
 
 export default function Login() {
   const [passwordErr, setPasswordErr] = useState('')
@@ -47,7 +47,7 @@ export default function Login() {
       if (accessToken) {
         Cookies.set('accessToken', accessToken) // Store the access token in a cookie
       }
-      
+
       await login({ email: data.email, password: data.password }).unwrap()
       navigate('/')
     } catch (error) {
@@ -58,7 +58,6 @@ export default function Login() {
       }
     }
   }
-
 
   return (
     <section className='w-full h-full md:h-[80vh] flex justify-center items-center'>
