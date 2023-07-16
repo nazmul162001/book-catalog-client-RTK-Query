@@ -9,7 +9,10 @@ import {
   Button,
   IconButton,
 } from '@material-tailwind/react'
-import { useCreateBookMutation } from '../redux/features/books/bookApiSlice'
+import {
+  useCreateBookMutation,
+  useUpdateBookMutation,
+} from '../redux/features/books/bookApiSlice'
 
 export type CreateBookFormValues = {
   title: string
@@ -17,10 +20,16 @@ export type CreateBookFormValues = {
   genre: string
   publicationDate: string
   image?: string
-  _id: string
+  _id?: string
 }
 
-export default function AddNewDialog() {
+interface EditDialogProps {
+  book: CreateBookFormValues
+}
+
+export default function EditDialog({ book }) {
+  //   const { title, author, genre, image, publicationDate } = book?.data
+
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(!open)
   const handleCardOpen = () => setOpen((cur) => !cur)
@@ -30,22 +39,35 @@ export default function AddNewDialog() {
     formState: { errors },
   } = useForm<CreateBookFormValues>()
 
-  const [createBook] = useCreateBookMutation();
+  const [updateBook] = useUpdateBookMutation()
 
   const onSubmit: SubmitHandler<CreateBookFormValues> = async (bookData) => {
     try {
-      const response = await createBook(bookData).unwrap();
-      // console.log(response);
-      handleOpen();
+      const updatedBookData = { ...bookData }
+      delete updatedBookData._id
+      const response = await updateBook({
+        id: book?.data?._id,
+        bookData: updatedBookData,
+      }).unwrap()
+      if (response) {
+        handleOpen()
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Failed to update book:', error)
+      // Handle the error case
     }
-  };
+  }
 
   return (
     <Fragment>
-      <Button onClick={handleOpen} variant='outlined' size='sm' fullWidth>
-        Add New
+      <Button
+        className='w-28'
+        color='blue'
+        onClick={handleOpen}
+        variant='outlined'
+        size='sm'
+      >
+        Edit
       </Button>
       <Dialog
         open={open}
@@ -56,7 +78,7 @@ export default function AddNewDialog() {
         }}
       >
         <div className='flex justify-between items-center pr-3'>
-          <DialogHeader>Create a New Book.</DialogHeader>
+          <DialogHeader>Update Book</DialogHeader>
           <IconButton
             color='red'
             size='lg'
@@ -76,6 +98,7 @@ export default function AddNewDialog() {
                 size='lg'
                 label='Title'
                 {...register('title', { required: 'Title is required' })}
+                defaultValue={book?.data?.title}
               />
               {errors.title && (
                 <span className='text-red-500'>{errors.title.message}</span>
@@ -84,6 +107,7 @@ export default function AddNewDialog() {
                 size='lg'
                 label='Author'
                 {...register('author', { required: 'Author is required' })}
+                defaultValue={book?.data?.author}
               />
               {errors.author && (
                 <span className='text-red-500'>{errors.author.message}</span>
@@ -92,6 +116,7 @@ export default function AddNewDialog() {
                 size='lg'
                 label='Genre'
                 {...register('genre', { required: 'Genre is required' })}
+                defaultValue={book?.data?.genre}
               />
               {errors.genre && (
                 <span className='text-red-500'>{errors.genre.message}</span>
@@ -103,16 +128,22 @@ export default function AddNewDialog() {
                 {...register('publicationDate', {
                   required: 'Publication Date is required',
                 })}
+                defaultValue={book?.data?.publicationDate}
               />
               {errors.publicationDate && (
                 <span className='text-red-500'>
                   {errors.publicationDate.message}
                 </span>
               )}
-              <Input size='lg' label='Image URL' {...register('image')} />
+              <Input
+                size='lg'
+                label='Image URL'
+                {...register('image')}
+                defaultValue={book?.data?.image}
+              />
             </div>
             <Button className='mt-6' fullWidth type='submit'>
-              Create
+              Update
             </Button>
           </form>
         </DialogBody>

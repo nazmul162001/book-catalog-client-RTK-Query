@@ -40,7 +40,7 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     try {
-      setEmailErr('') // Clear the error message before making the login API call
+      setPasswordErr('') // Clear the error message before making the login API call
       setEmailErr('') // Clear the error message before making the login API call
       const response = await loginMutation(data)
       const accessToken = response?.data?.data?.accessToken

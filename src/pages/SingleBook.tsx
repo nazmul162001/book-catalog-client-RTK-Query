@@ -1,9 +1,15 @@
 import { Button } from '@material-tailwind/react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { Textarea } from '@material-tailwind/react'
-import { useGetBookByIdQuery } from '../redux/features/books/bookApiSlice'
-import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import {
+  useDeleteBookMutation,
+  useGetBookByIdQuery,
+  useGetBooksQuery,
+} from '../redux/features/books/bookApiSlice'
+import { useNavigate, useParams } from 'react-router-dom'
+import { getAccessToken } from '../redux/api/apiSlice'
+import Swal from 'sweetalert2'
+import EditDialog from '../components/EditDialog'
 
 type ReviewFormValues = {
   message: string
@@ -12,8 +18,15 @@ type ReviewFormValues = {
 export default function SingleBook() {
   const { id } = useParams()
   const { data: book, isLoading, isError } = useGetBookByIdQuery(id)
+  const navigate = useNavigate()
 
-  // console.log(book?.data?.author)
+  const currentUser = book?.data?.userEmail
+  const accessToken = getAccessToken()
+  const isCurrentUser = currentUser === accessToken?.userEmail
+
+  // console.log(isCurrentUser)
+  // console.log(accessToken)
+  // console.log(currentUser)
 
   const {
     register,
@@ -23,6 +36,33 @@ export default function SingleBook() {
 
   const onSubmit: SubmitHandler<ReviewFormValues> = (data) => {
     console.log(data)
+  }
+
+  const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation()
+
+  const handleDelete = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this book!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteBook(id)
+          .unwrap()
+          .then(() => {
+            Swal.fire('Deleted!', 'Your book has been deleted.', 'success')
+            navigate('/books')
+          })
+          .catch((error) => {
+            Swal.fire('Error!', 'Failed to delete book.', 'error')
+            console.error('Failed to delete book:', error)
+          })
+      }
+    })
   }
 
   return (
@@ -53,8 +93,10 @@ export default function SingleBook() {
               </span>
             </p>
             <div className='w-full flex gap-3'>
-              <Button>Edit</Button>
-              <Button color='red'>Delete</Button>
+              <EditDialog book={book} />
+              <Button className='w-28' color='red' onClick={handleDelete}>
+                Delete
+              </Button>
             </div>
           </div>
         </div>
