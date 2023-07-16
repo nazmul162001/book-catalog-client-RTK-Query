@@ -9,12 +9,14 @@ import {
   Button,
   IconButton,
 } from '@material-tailwind/react'
+import { useCreateBookMutation } from '../redux/api/apiSlice'
 
-type CreateBookFormValues = {
+export type CreateBookFormValues = {
   title: string
   author: string
   genre: string
   publicationDate: string
+  image?: string
 }
 
 export default function AddNewDialog() {
@@ -27,9 +29,18 @@ export default function AddNewDialog() {
     formState: { errors },
   } = useForm<CreateBookFormValues>()
 
-  const onSubmit: SubmitHandler<CreateBookFormValues> = (data) => {
-    console.log(data)
-  }
+  const [createBook] = useCreateBookMutation();
+
+  const onSubmit: SubmitHandler<CreateBookFormValues> = async (bookData) => {
+    try {
+      const response = await createBook(bookData).unwrap();
+      console.log(response);
+      // Handle success or navigate to a success page
+    } catch (error) {
+      console.error(error);
+      // Handle error or show error message
+    }
+  };
 
   return (
     <Fragment>
@@ -98,6 +109,7 @@ export default function AddNewDialog() {
                   {errors.publicationDate.message}
                 </span>
               )}
+              <Input size='lg' label='Image URL' {...register('image')} />
             </div>
             <Button className='mt-6' fullWidth type='submit'>
               Create

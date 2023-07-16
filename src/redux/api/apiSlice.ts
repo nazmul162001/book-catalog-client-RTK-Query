@@ -1,11 +1,25 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import Cookies from 'js-cookie'
+import { BASE_URL } from '../../config'
+import { CreateBookFormValues } from '../../components/AddNewDialog'
 
-const BASE_URL = 'http://localhost:5000' // Replace with your actual backend URL
+export const getAccessToken = () => {
+  return Cookies.get('accessToken')
+}
 
-export const api = createApi({
+const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: BASE_URL,
+    prepareHeaders: (headers, { getState }) => {
+      const token = getAccessToken()
+      if (token) {
+        headers.set('authorization', token)
+      }
+      headers.set('Content-Type', 'application/json')
+      return headers
+    },
+  }),
   endpoints: (builder) => ({
     signup: builder.mutation<any, { email: string; password: string }>({
       query: (credentials) => ({
@@ -14,7 +28,6 @@ export const api = createApi({
         body: credentials,
       }),
     }),
-    // login
     login: builder.mutation<any, { email: string; password: string }>({
       query: (credentials) => ({
         url: '/auth/login',
@@ -22,10 +35,16 @@ export const api = createApi({
         body: credentials,
       }),
     }),
+    createBook: builder.mutation<any, CreateBookFormValues>({
+      query: (bookData) => ({
+        url: '/books',
+        method: 'POST',
+        body: bookData,
+      }),
+    }),
   }),
 })
-export const { useSignupMutation, useLoginMutation } = api
 
-export const getAccessToken = () => {
-  return Cookies.get('accessToken');
-};
+export const { useSignupMutation, useLoginMutation, useCreateBookMutation } =
+  api
+export default api

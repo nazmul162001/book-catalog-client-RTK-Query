@@ -47,6 +47,7 @@ export default function Login() {
       if (accessToken) {
         Cookies.set('accessToken', accessToken) // Store the access token in a cookie
       }
+      
       await login({ email: data.email, password: data.password }).unwrap()
       navigate('/')
     } catch (error) {
