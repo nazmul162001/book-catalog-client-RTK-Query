@@ -9,7 +9,7 @@ import {
   Button,
   IconButton,
 } from '@material-tailwind/react'
-import { useCreateBookMutation } from '../redux/api/apiSlice'
+import { useCreateBookMutation } from '../redux/features/books/bookApi'
 
 export type CreateBookFormValues = {
   title: string
@@ -34,7 +34,8 @@ export default function AddNewDialog() {
   const onSubmit: SubmitHandler<CreateBookFormValues> = async (bookData) => {
     try {
       const response = await createBook(bookData).unwrap();
-      console.log(response);
+      // console.log(response);
+      handleOpen();
       // Handle success or navigate to a success page
     } catch (error) {
       console.error(error);

@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@material-tailwind/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSignupMutation } from '../redux/api/apiSlice'
+import { useSignupMutation } from '../redux/features/user/userApi'
 
 type SignUpFormValues = {
   email: string

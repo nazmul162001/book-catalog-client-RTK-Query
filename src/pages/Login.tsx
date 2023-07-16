@@ -9,8 +9,8 @@ import {
   Typography,
 } from '@material-tailwind/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useLoginMutation } from '../redux/api/apiSlice'
 import Cookies from 'js-cookie'
+import { useLoginMutation } from '../redux/features/user/userApi'
 
 type LoginFormValues = {
   email: string
