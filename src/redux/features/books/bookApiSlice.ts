@@ -9,12 +9,15 @@ const bookApi = api.injectEndpoints({
         method: 'POST',
         body: bookData,
       }),
+      invalidatesTags: ['newBook'],
     }),
     getBooks: builder.query<any, void>({
       query: () => '/books',
+      providesTags: ['newBook'],
     }),
     searchBooks: builder.query<any, string>({
       query: (searchTerm) => `/books?searchTerm=${searchTerm}`,
+      providesTags: ['newBook'],
     }),
     getBookById: builder.query<any, string>({
       query: (id) => `/books/${id}`,

@@ -7,9 +7,13 @@ import {
 
 export default function BookList({ searchTerm }) {
   // const { data: books, isLoading, isError } = useGetBooksQuery()
-  const { data: books, isLoading, isError } = useSearchBooksQuery(searchTerm)
+  // const { data: books, isLoading, isError } = useSearchBooksQuery(searchTerm)
 
   // console.log(books?.data)
+  const { data: books, isLoading, isError  } = useSearchBooksQuery(searchTerm, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 500,
+  }); 
 
   if (isLoading) {
     return <p>Loading books...</p>
