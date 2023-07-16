@@ -5,6 +5,7 @@ import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { getAccessToken } from '../redux/api/apiSlice'
+import { toast } from 'react-toastify'
 
 export default function NavList() {
   const navigate = useNavigate()
@@ -22,6 +23,11 @@ export default function NavList() {
     }).then((result) => {
       if (result.isConfirmed) {
         Cookies.remove('accessToken') // Clear the access token from the cookie
+        toast.success('Log Out successful!', {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000, // Close the toast after 3 seconds
+          hideProgressBar: true,
+        })
         navigate('/login') // Redirect the user to the login page
       }
     })
@@ -74,15 +80,15 @@ export default function NavList() {
             color='blue-gray'
             className='p-1 font-medium'
           >
-            <Link
-              to='/login'
+            <Button
               onClick={handleLogout}
-              className='flex items-center hover:text-blue-500 transition-colors'
+              className='flex items-center transition-colors'
+              variant='gradient'
+              size='sm'
+              fullWidth
             >
-              <Button variant='gradient' size='sm' fullWidth>
-                Log Out
-              </Button>
-            </Link>
+              Log Out
+            </Button>
           </Typography>
         ) : (
           <Typography

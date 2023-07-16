@@ -13,6 +13,7 @@ import {
   useCreateBookMutation,
   useUpdateBookMutation,
 } from '../redux/features/books/bookApiSlice'
+import { toast } from 'react-toastify'
 
 export type CreateBookFormValues = {
   title: string
@@ -49,6 +50,11 @@ export default function EditDialog({ book }) {
         id: book?.data?._id,
         bookData: updatedBookData,
       }).unwrap()
+      toast.success('Book Update successful!', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000, // Close the toast after 3 seconds
+        hideProgressBar: true,
+      })
       if (response) {
         handleOpen()
       }

@@ -27,6 +27,7 @@ const bookApi = api.injectEndpoints({
         url: `/books/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['newBook'],
     }),
     updateBook: builder.mutation<any, { id: string, bookData: CreateBookFormValues }>({
       query: ({ id, bookData }) => ({
@@ -34,6 +35,7 @@ const bookApi = api.injectEndpoints({
         method: 'PATCH',
         body: bookData,
       }),
+      invalidatesTags: ['newBook'],
     }),
   }),
 });

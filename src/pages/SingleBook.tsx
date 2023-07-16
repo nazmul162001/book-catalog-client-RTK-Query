@@ -17,7 +17,17 @@ type ReviewFormValues = {
 
 export default function SingleBook() {
   const { id } = useParams()
-  const { data: book, isLoading, isError } = useGetBookByIdQuery(id)
+  // const { data: book, isLoading, isError } = useGetBookByIdQuery(id)
+
+  const {
+    data: book,
+    isLoading,
+    isError,
+  } = useGetBookByIdQuery(id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 500,
+  })
+
   const navigate = useNavigate()
 
   const currentUser = book?.data?.userEmail
@@ -39,6 +49,9 @@ export default function SingleBook() {
   }
 
   const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation()
+
+  
+  
 
   const handleDelete = () => {
     Swal.fire({
@@ -81,7 +94,7 @@ export default function SingleBook() {
               {book?.data?.title}
             </h3>
             <p className='text-gray-500 py-3'>
-              Author :<span className='text-gray-800'>{book?.data?.title}</span>
+              Author :<span className='text-gray-800'>{book?.data?.author}</span>
             </p>
             <p className='text-gray-500'>
               Genre :<span className='text-gray-800'>{book?.data?.genre}</span>

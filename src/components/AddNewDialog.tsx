@@ -10,6 +10,7 @@ import {
   IconButton,
 } from '@material-tailwind/react'
 import { useCreateBookMutation } from '../redux/features/books/bookApiSlice'
+import { toast } from 'react-toastify'
 
 export type CreateBookFormValues = {
   title: string
@@ -36,6 +37,11 @@ export default function AddNewDialog() {
     try {
       const response = await createBook(bookData).unwrap();
       // console.log(response);
+      toast.success('Book Created successful!', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000, // Close the toast after 3 seconds
+        hideProgressBar: true,
+      })
       handleOpen();
     } catch (error) {
       console.error(error);

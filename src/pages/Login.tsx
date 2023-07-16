@@ -11,6 +11,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useLoginMutation } from '../redux/features/user/userApiSlice'
+import { toast } from 'react-toastify'
 
 type LoginFormValues = {
   email: string
@@ -50,6 +51,12 @@ export default function Login() {
 
       await login({ email: data.email, password: data.password }).unwrap()
       navigate('/')
+
+      toast.success('Login successful!', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000, // Close the toast after 3 seconds
+        hideProgressBar: true,
+      })
     } catch (error) {
       if (error?.data?.message === 'Password is incorrect') {
         setPasswordErr('Password is incorrect')
