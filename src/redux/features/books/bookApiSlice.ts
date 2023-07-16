@@ -37,6 +37,14 @@ const bookApi = api.injectEndpoints({
       }),
       invalidatesTags: ['newBook'],
     }),
+    updateBookStatus: builder.mutation<any, { id: string; status: string }>({
+      query: ({ id, status }) => ({
+        url: `/books/${id}`,
+        method: 'PATCH',
+        body: { status },
+      }),
+      invalidatesTags: ['newBook'],
+    }),
   }),
 });
 export const {
@@ -46,4 +54,5 @@ export const {
   useSearchBooksQuery,
   useDeleteBookMutation,
   useUpdateBookMutation,
+  useUpdateBookStatusMutation
 } = bookApi

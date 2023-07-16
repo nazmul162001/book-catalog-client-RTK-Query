@@ -13,31 +13,36 @@ import {
   CheckBadgeIcon,
 } from '@heroicons/react/24/solid'
 
+import AllWishList from '../components/wishList/AllWishList'
+import Completed from '../components/wishList/Completed'
+import ReadingList from '../components/wishList/ReadingList'
+import PlanToReadList from '../components/wishList/PlanToReadList'
+
 export default function WishList() {
   const data = [
     {
       label: 'Wish List',
       value: 'Wish List',
       icon: HeartIcon,
-      desc: 'Wish List',
+      desc: <AllWishList />,
     },
     {
       label: 'Reading',
       value: 'Reading',
       icon: BookOpenIcon,
-      desc: 'Reading List',
+      desc: <ReadingList />,
     },
     {
       label: 'Plan To Read',
       value: 'Plan To Read',
       icon: BookmarkIcon,
-      desc: 'Plan To Read List',
+      desc: <PlanToReadList />,
     },
     {
       label: 'Completed',
       value: 'Completed',
       icon: CheckBadgeIcon,
-      desc: 'Completed List',
+      desc: <Completed />,
     },
   ]
   return (

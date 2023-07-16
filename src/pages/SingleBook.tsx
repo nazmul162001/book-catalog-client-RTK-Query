@@ -10,6 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { getAccessToken } from '../redux/api/apiSlice'
 import Swal from 'sweetalert2'
 import EditDialog from '../components/EditDialog'
+import { useEffect } from 'react'
 
 type ReviewFormValues = {
   message: string
@@ -18,7 +19,9 @@ type ReviewFormValues = {
 export default function SingleBook() {
   const { id } = useParams()
   // const { data: book, isLoading, isError } = useGetBookByIdQuery(id)
-
+  useEffect(() => {
+    window.scrollTo(0, 0) 
+  }, [])
   const {
     data: book,
     isLoading,
@@ -49,9 +52,6 @@ export default function SingleBook() {
   }
 
   const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation()
-
-  
-  
 
   const handleDelete = () => {
     Swal.fire({
@@ -94,7 +94,8 @@ export default function SingleBook() {
               {book?.data?.title}
             </h3>
             <p className='text-gray-500 py-3'>
-              Author :<span className='text-gray-800'>{book?.data?.author}</span>
+              Author :
+              <span className='text-gray-800'>{book?.data?.author}</span>
             </p>
             <p className='text-gray-500'>
               Genre :<span className='text-gray-800'>{book?.data?.genre}</span>

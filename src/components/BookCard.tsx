@@ -13,6 +13,8 @@ import {
   CheckBadgeIcon,
 } from '@heroicons/react/24/solid'
 import { Link } from 'react-router-dom'
+import { useUpdateBookStatusMutation } from '../redux/features/books/bookApiSlice'
+import { toast } from 'react-toastify'
 
 export default function BookCard({ book }) {
   // console.log(book)
@@ -28,10 +30,26 @@ export default function BookCard({ book }) {
     _id,
   } = book
 
+  const [updateBookStatus] = useUpdateBookStatusMutation()
+
+  const handleAddToWishList = async () => {
+    try {
+      await updateBookStatus({ id: book._id, status: 'wishList' })
+      // Optionally, you can display a success message or perform any additional actions
+      toast.success('Added to Wish List!', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: true,
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
-      <Link to={`/books/${book._id}`}>
-        <Card className='w-full shadow-lg'>
+      <Card className='w-full shadow-lg relative'>
+        <Link className='pb-12' to={`/books/${book._id}`}>
           <CardHeader floated={false} color='blue-gray'>
             <img src={image} alt='ui/ux review check' />
           </CardHeader>
@@ -61,31 +79,35 @@ export default function BookCard({ book }) {
             <Typography color='gray'>
               <p className='text-sm'>Publication: {publicationDate}</p>
             </Typography>
-            <div className='group mt-8 flex flex-wrap items-center justify-between px-3'>
-              <Tooltip content='Add to Wish List'>
-                <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
-                  <HeartIcon className='h-5 w-5' />
-                </span>
-              </Tooltip>
-              <Tooltip content='Reading'>
-                <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
-                  <BookOpenIcon className='h-5 w-5' />
-                </span>
-              </Tooltip>
-              <Tooltip content='Plan to read'>
-                <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
-                  <BookmarkIcon className='h-5 w-5' />
-                </span>
-              </Tooltip>
-              <Tooltip content='Complete'>
-                <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
-                  <CheckBadgeIcon className='h-5 w-5' />
-                </span>
-              </Tooltip>
-            </div>
+            {/* Tooltip  */}
           </CardBody>
-        </Card>
-      </Link>
+        </Link>
+        <div className='group absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-white flex flex-wrap items-center justify-between gap-3 px-3 w-full'>
+          <Tooltip content='Add to Wish List'>
+            <span
+              onClick={handleAddToWishList}
+              className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'
+            >
+              <HeartIcon className='h-5 w-5' />
+            </span>
+          </Tooltip>
+          <Tooltip content='Reading'>
+            <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
+              <BookOpenIcon className='h-5 w-5' />
+            </span>
+          </Tooltip>
+          <Tooltip content='Plan to read'>
+            <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
+              <BookmarkIcon className='h-5 w-5' />
+            </span>
+          </Tooltip>
+          <Tooltip content='Complete'>
+            <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
+              <CheckBadgeIcon className='h-5 w-5' />
+            </span>
+          </Tooltip>
+        </div>
+      </Card>
     </>
   )
 }
