@@ -5,6 +5,7 @@ import {
   useDeleteBookMutation,
   useGetBookByIdQuery,
   useGetBooksQuery,
+  useGetReviewQuery,
   usePostReviewMutation,
 } from '../redux/features/books/bookApiSlice'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -12,7 +13,8 @@ import { getAccessToken } from '../redux/api/apiSlice'
 import Swal from 'sweetalert2'
 import EditDialog from '../components/EditDialog'
 import { useEffect } from 'react'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
+import { Avatar } from "@material-tailwind/react";
 
 type ReviewFormValues = {
   reviews: string
@@ -32,6 +34,11 @@ export default function SingleBook() {
     pollingInterval: 500,
   })
 
+  // get review
+  const { data: reviewData } = useGetReviewQuery(id)
+
+  // console.log(reviewData?.data?.reviews)
+
   const [postReview, { isCommentError, isCommentLoading, isSuccess }] =
     usePostReviewMutation()
 
@@ -45,22 +52,22 @@ export default function SingleBook() {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<ReviewFormValues>()
 
   const onSubmit: SubmitHandler<ReviewFormValues> = async (data) => {
     try {
-      await postReview({ id, data: { reviews: data.reviews } }).unwrap();
+      await postReview({ id, data: { reviews: data.reviews } }).unwrap()
       toast.success('Review added successfully!', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
         hideProgressBar: true,
-      });
-      reset(); // Clear the form fields
+      })
+      reset() // Clear the form fields
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation()
 
@@ -146,7 +153,13 @@ export default function SingleBook() {
       <div className='userReview px-10 my-5 pt-10'>
         <div className='user'>
           <p className='text-gray-800 text-sm'>
-            Nice Book, Recommended to Read This book ❤️
+            {reviewData?.data?.reviews &&
+              reviewData?.data?.reviews.map((review) => (
+                <div className='flex items-center my-3'>
+                  <Avatar src='https://img.freepik.com/free-icon/man_318-233556.jpg?w=2000' alt='avatar' />
+                  <p className='ml-4'> {review} </p>
+                </div>
+              ))}
           </p>
         </div>
       </div>
