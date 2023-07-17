@@ -66,9 +66,11 @@ const bookApi = api.injectEndpoints({
         method: 'POST',
         body: { bookId, status },
       }),
+      invalidatesTags: ['wishList'],
     }),
     getAllWishList: builder.query<any, void>({
       query: () => '/wishList',
+      providesTags: ['wishList'],
     }),
   }),
 })

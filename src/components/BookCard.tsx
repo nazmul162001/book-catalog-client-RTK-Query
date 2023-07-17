@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import {
   Card,
   CardHeader,
@@ -20,6 +21,7 @@ import {
 import { toast } from 'react-toastify'
 
 export default function BookCard({ book }) {
+  const [wishListStatus, setWishListStatus] = useState('');
   // console.log(book)
   const {
     title,
