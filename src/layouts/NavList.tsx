@@ -46,7 +46,7 @@ export default function NavList() {
             to='/books'
             className='flex items-center hover:text-blue-500 transition-colors'
           >
-            books
+            All Books
           </Link>
         </Typography>
         <Typography
