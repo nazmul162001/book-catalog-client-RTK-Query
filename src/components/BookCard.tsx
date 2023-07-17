@@ -18,13 +18,14 @@ import {
   useAddToWishListMutation,
 } from '../redux/features/books/bookApiSlice';
 import { toast } from 'react-toastify';
+import { BookCardProps } from './AddNewDialog';
 
 // Define the type for localStorageColors
 type LocalStorageColors = {
   [key: string]: string;
 };
 
-export default function BookCard({ book }) {
+export default function BookCard({ book }: BookCardProps) {
   const [localStorageColors, setLocalStorageColors] = useState<LocalStorageColors>({});
 
   const {

@@ -25,7 +25,7 @@ const loginSchema = z.object({
     .string()
     .min(6, { message: 'Password must be at least 6 characters long' }),
 })
-// console.log(loginSchema)
+console.log(loginSchema)
 
 export default function Login() {
   const [passwordErr, setPasswordErr] = useState('')
@@ -49,6 +49,7 @@ export default function Login() {
       setPasswordErr('') // Clear the error message before making the login API call
       setEmailErr('') // Clear the error message before making the login API call
       const response = await loginMutation(data)
+      //@ts-ignore
       const accessToken = response?.data?.data?.accessToken
       if (accessToken) {
         Cookies.set('accessToken', accessToken) // Store the access token in a cookie
@@ -63,8 +64,10 @@ export default function Login() {
         hideProgressBar: true,
       })
     } catch (error) {
+      //@ts-ignore
       if (error?.data?.message === 'Password is incorrect') {
         setPasswordErr('Password is incorrect')
+        //@ts-ignore
       } else if (error?.data?.message === 'User does not exist') {
         setEmailErr('User does not exist')
       }

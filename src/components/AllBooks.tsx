@@ -1,14 +1,13 @@
 import GetAllBookList from './BookCard'
 import { CreateBookFormValues } from './AddNewDialog'
 import {
-  useGetBooksQuery,
   useSearchBooksQuery,
 } from '../redux/features/books/bookApiSlice'
 import Loader from '../layouts/Spinner'
 
-export default function AllBooks({searchTerm}) {
+export default function AllBooks({searchTerm}: any) {
   // const { data: books, isLoading, isError } = useGetBooksQuery()
-  const { data: books, isLoading, isError } = useSearchBooksQuery(searchTerm)
+  const { data: books, isLoading} = useSearchBooksQuery(searchTerm)
 
   // console.log(books?.data)
 

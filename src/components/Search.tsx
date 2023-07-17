@@ -1,8 +1,8 @@
 import { Button, Input } from '@material-tailwind/react'
 import { FiSearch } from 'react-icons/fi'
 
-export default function Search({ setSearchTerm }) {
-  const handleSearchChange = (event) => {
+export default function Search({ setSearchTerm }: any) {
+  const handleSearchChange = (event: any) => {
     setSearchTerm(event.target.value)
   }
   return (

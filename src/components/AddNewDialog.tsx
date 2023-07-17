@@ -9,7 +9,7 @@ import {
   Button,
   IconButton,
 } from '@material-tailwind/react'
-import { useCreateBookMutation } from '../redux/features/books/bookApiSlice'
+// import { useCreateBookMutation } from '../redux/features/books/bookApiSlice'
 import { toast } from 'react-toastify'
 
 export type CreateBookFormValues = {
@@ -20,6 +20,9 @@ export type CreateBookFormValues = {
   image?: string
   _id: string
 }
+export type BookCardProps = {
+  book: CreateBookFormValues;
+};
 
 export default function AddNewDialog() {
   const [open, setOpen] = useState(false)
@@ -31,11 +34,11 @@ export default function AddNewDialog() {
     formState: { errors },
   } = useForm<CreateBookFormValues>()
 
-  const [createBook] = useCreateBookMutation();
+  // const [createBook] = useCreateBookMutation();
 
-  const onSubmit: SubmitHandler<CreateBookFormValues> = async (bookData) => {
+  const onSubmit: SubmitHandler<CreateBookFormValues> = async () => {
     try {
-      const response = await createBook(bookData).unwrap();
+      // const response = await createBook(bookData).unwrap();
       // console.log(response);
       toast.success('Book Created successful!', {
         position: toast.POSITION.TOP_RIGHT,

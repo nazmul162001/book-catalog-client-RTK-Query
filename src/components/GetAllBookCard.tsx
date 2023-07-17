@@ -13,19 +13,16 @@ import {
   CheckBadgeIcon,
 } from '@heroicons/react/24/solid'
 import { Link } from 'react-router-dom'
+import { BookCardProps } from './AddNewDialog'
 
-export default function GetAllBookCard({ book }) {
+export default function GetAllBookCard({ book }: BookCardProps) {
   // console.log(book)
   const {
     title,
     author,
     genre,
     image,
-    reviews,
     publicationDate,
-    status,
-    userEmail,
-    _id,
   } = book
 
   return (

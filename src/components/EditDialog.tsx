@@ -10,7 +10,6 @@ import {
   IconButton,
 } from '@material-tailwind/react'
 import {
-  useCreateBookMutation,
   useUpdateBookMutation,
 } from '../redux/features/books/bookApiSlice'
 import { toast } from 'react-toastify'
@@ -25,10 +24,11 @@ export type CreateBookFormValues = {
   _id?: string
 }
 
-interface EditDialogProps {
-  book: CreateBookFormValues
-}
+// interface EditDialogProps {
+//   book: CreateBookFormValues
+// }
 
+//@ts-ignore
 export default function EditDialog({ book }) {
   //   const { title, author, genre, image, publicationDate } = book?.data
 
@@ -53,6 +53,7 @@ export default function EditDialog({ book }) {
       delete updatedBookData._id
       const response = await updateBook({
         id: book?.data?._id,
+        //@ts-ignore
         bookData: updatedBookData,
       }).unwrap()
       toast.success('Book Update successful!', {

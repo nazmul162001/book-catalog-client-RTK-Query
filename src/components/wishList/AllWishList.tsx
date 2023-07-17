@@ -6,7 +6,6 @@ export default function AllWishList() {
   const {
     data: wishList,
     isLoading,
-    isError,
   } = useGetAllWishListQuery(undefined, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 500,

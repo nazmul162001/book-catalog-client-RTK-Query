@@ -10,7 +10,7 @@ export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers, {}) => {
       const token = getAccessToken()
       if (token) {
         headers.set('authorization', token)
@@ -19,6 +19,6 @@ export const api = createApi({
       return headers
     },
   }),
-  tagTypes: ['review', 'newBook', 'wishList'], 
+  tagTypes: ['review', 'newBook', 'wishList'],
   endpoints: () => ({}),
-});
+})

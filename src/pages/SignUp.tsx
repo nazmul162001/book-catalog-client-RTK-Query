@@ -34,7 +34,7 @@ export default function SignUp() {
     watch,
   } = useForm<SignUpFormValues>()
 
-  const [signup, { isLoading }] = useSignupMutation()
+  const [signup, {}] = useSignupMutation()
 
   const navigate = useNavigate()
 
@@ -46,6 +46,7 @@ export default function SignUp() {
     } catch (error) {
       // console.log(error?.data?.message)
       // setErr(error?.data?.message)
+      //@ts-ignore
       if (error?.data?.message === 'User already exists') {
         setErr('User already exists')
       } else {
