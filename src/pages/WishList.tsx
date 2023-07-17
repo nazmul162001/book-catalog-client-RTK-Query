@@ -60,7 +60,7 @@ export default function WishList() {
       <TabsBody>
         {data.map(({ value, desc }) => (
           <TabPanel key={value} value={value}>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
+            <div className=''>
               {desc}
             </div>
           </TabPanel>

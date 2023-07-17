@@ -1,12 +1,10 @@
 import CurrentUserEmail from '../../layouts/CurrentUserEmail'
 import Loader from '../../layouts/Spinner'
 import { useGetAllWishListQuery } from '../../redux/features/books/bookApiSlice'
+import WishListCard from './WishListCard'
 
 export default function AllWishList() {
-  const {
-    data: wishList,
-    isLoading,
-  } = useGetAllWishListQuery(undefined, {
+  const { data: wishList, isLoading } = useGetAllWishListQuery(undefined, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 500,
   })
@@ -20,18 +18,16 @@ export default function AllWishList() {
 
   // Filter wishList data based on matching userEmail
   const filteredWishList = wishList?.data?.filter(
-    (item: any) => item.userEmail === currentUserEmail && item.status === 'wishList'
-  );
-  
+    (item: any) =>
+      item.userEmail === currentUserEmail && item.status === 'wishList'
+  )
 
   return (
-    <div>
-      <div>
+    <div className='w-full'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full'>
         {filteredWishList &&
           filteredWishList?.map((item: any) => (
-            <div key={item._id}>
-              <p>{item?.bookId?.title}</p>
-            </div>
+            <WishListCard item={item} key={item?._id} />
           ))}
       </div>
     </div>

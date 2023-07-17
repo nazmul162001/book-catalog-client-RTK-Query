@@ -9,10 +9,18 @@ import {
   Button,
   IconButton,
 } from '@material-tailwind/react'
-// import { useCreateBookMutation } from '../redux/features/books/bookApiSlice'
+import { useCreateBookMutation } from '../redux/features/books/bookApiSlice'
 import { toast } from 'react-toastify'
 
 export type CreateBookFormValues = {
+  bookId: {
+    title: any
+    author: any
+    genre: any
+    image: any
+    publicationDate: any
+    _id: any
+  }
   title: string
   author: string
   genre: string
@@ -21,8 +29,11 @@ export type CreateBookFormValues = {
   _id: string
 }
 export type BookCardProps = {
-  book: CreateBookFormValues;
-};
+  book: CreateBookFormValues
+}
+export type ItemCardProps = {
+  item: CreateBookFormValues
+}
 
 export default function AddNewDialog() {
   const [open, setOpen] = useState(false)
@@ -34,22 +45,22 @@ export default function AddNewDialog() {
     formState: { errors },
   } = useForm<CreateBookFormValues>()
 
-  // const [createBook] = useCreateBookMutation();
+  const [createBook] = useCreateBookMutation();
 
-  const onSubmit: SubmitHandler<CreateBookFormValues> = async () => {
+  const onSubmit: SubmitHandler<CreateBookFormValues> = async (bookData) => {
     try {
-      // const response = await createBook(bookData).unwrap();
-      // console.log(response);
+      const response = await createBook(bookData).unwrap();
+      console.log(response);
       toast.success('Book Created successful!', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000, // Close the toast after 3 seconds
         hideProgressBar: true,
       })
-      handleOpen();
+      handleOpen()
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   return (
     <Fragment>
@@ -106,6 +117,7 @@ export default function AddNewDialog() {
                 <span className='text-red-500'>{errors.genre.message}</span>
               )}
               <Input
+                type='date'
                 size='lg'
                 label='Publication Date'
                 placeholder='DD/MM/YY'

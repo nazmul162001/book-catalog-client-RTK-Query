@@ -14,6 +14,7 @@ import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { Avatar } from '@material-tailwind/react'
 import CurrentUserEmail from '../layouts/CurrentUserEmail'
+import { getAccessToken } from '../redux/api/apiSlice'
 
 type ReviewFormValues = {
   reviews: string
@@ -21,6 +22,8 @@ type ReviewFormValues = {
 
 export default function SingleBook() {
   const { id } = useParams()
+  const token = getAccessToken()
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
@@ -44,6 +47,16 @@ export default function SingleBook() {
   } = useForm<ReviewFormValues>()
 
   const onSubmit: SubmitHandler<ReviewFormValues> = async (data) => {
+    if (!token) {
+      navigate('/login')
+      toast.error('Please login to create a review', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: true,
+      })
+      return
+    }
+
     try {
       await postReview({ id, data: { reviews: data.reviews } }).unwrap()
       toast.success('Review added successfully!', {
