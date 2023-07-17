@@ -42,7 +42,7 @@ export default function BookCard({ book }) {
         hideProgressBar: true,
       })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

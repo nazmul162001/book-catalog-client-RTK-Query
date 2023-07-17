@@ -5,22 +5,23 @@ import {
   useDeleteBookMutation,
   useGetBookByIdQuery,
   useGetBooksQuery,
+  usePostReviewMutation,
 } from '../redux/features/books/bookApiSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getAccessToken } from '../redux/api/apiSlice'
 import Swal from 'sweetalert2'
 import EditDialog from '../components/EditDialog'
 import { useEffect } from 'react'
+import { toast } from 'react-toastify';
 
 type ReviewFormValues = {
-  message: string
+  reviews: string
 }
 
 export default function SingleBook() {
   const { id } = useParams()
-  // const { data: book, isLoading, isError } = useGetBookByIdQuery(id)
   useEffect(() => {
-    window.scrollTo(0, 0) 
+    window.scrollTo(0, 0)
   }, [])
   const {
     data: book,
@@ -31,25 +32,35 @@ export default function SingleBook() {
     pollingInterval: 500,
   })
 
+  const [postReview, { isCommentError, isCommentLoading, isSuccess }] =
+    usePostReviewMutation()
+
   const navigate = useNavigate()
 
   const currentUser = book?.data?.userEmail
   const accessToken = getAccessToken()
   const isCurrentUser = currentUser === accessToken?.userEmail
 
-  // console.log(isCurrentUser)
-  // console.log(accessToken)
-  // console.log(currentUser)
-
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<ReviewFormValues>()
 
-  const onSubmit: SubmitHandler<ReviewFormValues> = (data) => {
-    console.log(data)
-  }
+  const onSubmit: SubmitHandler<ReviewFormValues> = async (data) => {
+    try {
+      await postReview({ id, data: { reviews: data.reviews } }).unwrap();
+      toast.success('Review added successfully!', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      reset(); // Clear the form fields
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation()
 
@@ -116,15 +127,15 @@ export default function SingleBook() {
         </div>
       </section>
       <div className='comment px-10'>
-        <h4 className='text-gray-500'>Write your review</h4>
+        <h4 className='text-gray-500 my-3'>Book review</h4>
         <div className='w-96'>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Textarea
-              label='Message'
-              {...register('message', { required: 'Message is required' })}
+              label='Write a review...'
+              {...register('reviews', { required: 'Review is required' })}
             />
-            {errors.message && (
-              <span className='text-red-500'>{errors.message.message}</span>
+            {errors.reviews && (
+              <span className='text-red-500'>{errors.reviews.message}</span>
             )}
             <Button className='mt-6' fullWidth type='submit'>
               Submit
