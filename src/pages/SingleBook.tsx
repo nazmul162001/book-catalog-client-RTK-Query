@@ -4,17 +4,16 @@ import { Textarea } from '@material-tailwind/react'
 import {
   useDeleteBookMutation,
   useGetBookByIdQuery,
-  useGetBooksQuery,
   useGetReviewQuery,
   usePostReviewMutation,
 } from '../redux/features/books/bookApiSlice'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getAccessToken } from '../redux/api/apiSlice'
 import Swal from 'sweetalert2'
 import EditDialog from '../components/EditDialog'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { Avatar } from "@material-tailwind/react";
+import { Avatar } from '@material-tailwind/react'
+import CurrentUserEmail from '../layouts/CurrentUserEmail'
 
 type ReviewFormValues = {
   reviews: string
@@ -25,11 +24,7 @@ export default function SingleBook() {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-  const {
-    data: book,
-    isLoading,
-    isError,
-  } = useGetBookByIdQuery(id, {
+  const { data: book } = useGetBookByIdQuery(id!, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 500,
   })
@@ -37,16 +32,9 @@ export default function SingleBook() {
   // get review
   const { data: reviewData } = useGetReviewQuery(id)
 
-  // console.log(reviewData?.data?.reviews)
-
-  const [postReview, { isCommentError, isCommentLoading, isSuccess }] =
-    usePostReviewMutation()
+  const [postReview, {}] = usePostReviewMutation()
 
   const navigate = useNavigate()
-
-  const currentUser = book?.data?.userEmail
-  const accessToken = getAccessToken()
-  const isCurrentUser = currentUser === accessToken?.userEmail
 
   const {
     register,
@@ -69,7 +57,7 @@ export default function SingleBook() {
     }
   }
 
-  const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation()
+  const [deleteBook, {}] = useDeleteBookMutation()
 
   const handleDelete = () => {
     Swal.fire({
@@ -82,7 +70,7 @@ export default function SingleBook() {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteBook(id)
+        deleteBook(id!)
           .unwrap()
           .then(() => {
             Swal.fire('Deleted!', 'Your book has been deleted.', 'success')
@@ -95,6 +83,11 @@ export default function SingleBook() {
       }
     })
   }
+
+  // check login user email && bookData email
+  const userEmail = CurrentUserEmail()
+  const bookEmail = book?.data?.userEmail
+  const isCurrentUser = userEmail === bookEmail
 
   return (
     <div className='w-full h-full'>
@@ -124,12 +117,14 @@ export default function SingleBook() {
                 {book?.data?.publicationDate}
               </span>
             </p>
-            <div className='w-full flex gap-3'>
-              <EditDialog book={book} />
-              <Button className='w-28' color='red' onClick={handleDelete}>
-                Delete
-              </Button>
-            </div>
+            {isCurrentUser && (
+              <div className='w-full flex gap-3'>
+                <EditDialog book={book} />
+                <Button className='w-28' color='red' onClick={handleDelete}>
+                  Delete
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -154,9 +149,12 @@ export default function SingleBook() {
         <div className='user'>
           <p className='text-gray-800 text-sm'>
             {reviewData?.data?.reviews &&
-              reviewData?.data?.reviews.map((review) => (
+              reviewData?.data?.reviews.map((review: string) => (
                 <div className='flex items-center my-3'>
-                  <Avatar src='https://img.freepik.com/free-icon/man_318-233556.jpg?w=2000' alt='avatar' />
+                  <Avatar
+                    src='https://img.freepik.com/free-icon/man_318-233556.jpg?w=2000'
+                    alt='avatar'
+                  />
                   <p className='ml-4'> {review} </p>
                 </div>
               ))}

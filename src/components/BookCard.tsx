@@ -13,7 +13,10 @@ import {
   CheckBadgeIcon,
 } from '@heroicons/react/24/solid'
 import { Link } from 'react-router-dom'
-import { useUpdateBookStatusMutation } from '../redux/features/books/bookApiSlice'
+import {
+  useAddToWishListMutation,
+  useUpdateBookStatusMutation,
+} from '../redux/features/books/bookApiSlice'
 import { toast } from 'react-toastify'
 
 export default function BookCard({ book }) {
@@ -30,19 +33,24 @@ export default function BookCard({ book }) {
     _id,
   } = book
 
-  const [updateBookStatus] = useUpdateBookStatusMutation()
+  const [addToWishList] = useAddToWishListMutation()
 
-  const handleAddToWishList = async () => {
+  const handleAddToWishList = async (status: string) => {
     try {
-      await updateBookStatus({ id: book._id, status: 'wishList' })
-      // Optionally, you can display a success message or perform any additional actions
-      toast.success('Added to Wish List!', {
+      await addToWishList({ bookId: _id, status: status })
+
+      toast.success(`Added to ${status} List` , {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
         hideProgressBar: true,
       })
     } catch (error) {
-      // console.log(error)
+      console.error('Failed to add to Wish List:', error)
+      toast.error('Failed to add to Wish List', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: true,
+      })
     }
   }
 
@@ -82,27 +90,27 @@ export default function BookCard({ book }) {
             {/* Tooltip  */}
           </CardBody>
         </Link>
-        <div className='group absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-white flex flex-wrap items-center justify-between gap-3 px-3 w-full'>
+        <div className='group absolute bottom-2 bg-white left-10 flex flex-wrap items-center justify-between px-3'>
           <Tooltip content='Add to Wish List'>
             <span
-              onClick={handleAddToWishList}
+              onClick={(status) => handleAddToWishList('wishList')}
               className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'
             >
               <HeartIcon className='h-5 w-5' />
             </span>
           </Tooltip>
           <Tooltip content='Reading'>
-            <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
+            <span  onClick={(status) => handleAddToWishList('reading')} className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
               <BookOpenIcon className='h-5 w-5' />
             </span>
           </Tooltip>
           <Tooltip content='Plan to read'>
-            <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
+            <span  onClick={(status) => handleAddToWishList('plan')} className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
               <BookmarkIcon className='h-5 w-5' />
             </span>
           </Tooltip>
           <Tooltip content='Complete'>
-            <span className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
+            <span  onClick={(status) => handleAddToWishList('complete')} className='cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-gray-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70'>
               <CheckBadgeIcon className='h-5 w-5' />
             </span>
           </Tooltip>
